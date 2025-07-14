@@ -23,10 +23,8 @@ export default function SignUpPage() {
         callbackURL: "/dashboard",
       },
       {
-        onRequest: (ctx) => {
-          setLoading(true);
-        },
-        onSuccess: (ctx) => {
+        onRequest: () => setLoading(true),
+        onSuccess: () => {
           setLoading(false);
           router.push("/dashboard");
         },
@@ -40,13 +38,74 @@ export default function SignUpPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Sign Up</h1>
-      <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" required />
-      <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" required />
-      <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Name (optional)" />
-      <input type="text" value={image} onChange={e => setImage(e.target.value)} placeholder="Image URL (optional)" />
-      <button type="submit" disabled={loading}>{loading ? "Signing Up..." : "Sign Up"}</button>
-    </form>
+    <div className="flex flex-col items-center justify-center min-h-[60vh]">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white dark:bg-neutral-900 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4 w-full max-w-sm border border-neutral-200 dark:border-neutral-800"
+      >
+        <h1 className="text-2xl font-bold mb-6 text-center">Sign Up</h1>
+        <div className="mb-4">
+          <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="email">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-neutral-800 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="password">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-neutral-800 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="name">
+            Name (optional)
+          </label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="Name"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-neutral-800 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="image">
+            Image URL (optional)
+          </label>
+          <input
+            id="image"
+            type="text"
+            value={image}
+            onChange={e => setImage(e.target.value)}
+            placeholder="Image URL"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-neutral-800 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-150 disabled:opacity-60"
+        >
+          {loading ? "Signing Up..." : "Sign Up"}
+        </button>
+      </form>
+    </div>
   );
 }
