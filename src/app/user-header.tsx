@@ -5,31 +5,50 @@ import { useState, useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
 
 export default function UserHeader() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<any | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    // Fetch user session client-side
-    authClient.getSession().then((session) => {
-      setUser(session?.user || null);
-    });
+    let mounted = true;
+    authClient.getSession()
+      .then((session) => {
+        if (mounted) setUser(session?.user || null);
+      })
+      .catch((err) => {
+        if (mounted) setError("Erreur lors de la récupération de la session utilisateur.");
+      });
+    return () => { mounted = false; };
   }, []);
 
   const handleSignOut = async () => {
     setLoading(true);
-    await authClient.signOut({
-      fetchOptions: {
-        onError: (err) => {
-          setLoading(false);
-          console.error("Logout failed:", err);
+    setError(null);
+    try {
+      const { error: signOutError, data } = await authClient.signOut({
+        fetchOptions: {
+          onError: (err) => {
+            setLoading(false);
+            setError("Erreur lors de la déconnexion.");
+            console.error("Logout failed:", err);
+          },
         },
-      },
-    });
-    setLoading(false);
-    setUser(null);
-    router.push("/signin");
+      });
+      if (signOutError) {
+        setError(signOutError.message || "Erreur lors de la déconnexion.");
+      }
+      setUser(null);
+      router.push("/signin");
+    } catch (err) {
+      setError("Erreur lors de la déconnexion.");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  // While loading user state, render nothing to avoid flicker
+  if (user === undefined) return null;
 
   return (
     <div className="flex gap-4 items-center">
@@ -56,6 +75,7 @@ export default function UserHeader() {
           >
             {loading ? "Signing out..." : "Sign out"}
           </button>
+          {error && <span className="ml-2 text-xs text-red-300">{error}</span>}
         </>
       ) : (
         <>
@@ -65,6 +85,7 @@ export default function UserHeader() {
           <Link href="/signup" className="ml-2 underline">
             Sign Up
           </Link>
+          {error && <span className="ml-2 text-xs text-red-300">{error}</span>}
         </>
       )}
     </div>

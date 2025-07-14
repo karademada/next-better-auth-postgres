@@ -45,6 +45,8 @@
 - Pour l’auth, utiliser les helpers Better Auth déjà présents
 - Pour les pages, respecter la structure App Router
 - Toujours expliquer brièvement les choix techniques dans la réponse
+- Toujours utiliser pnpm pour la gestion des paquets
+- Ne pas proposer de code obsolète ou supprimélet session = null;
 
 ---
 
