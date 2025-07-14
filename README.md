@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js + Better Auth + PostgreSQL + TailwindCSS
 
-## Getting Started
+[![CI](https://github.com/<ton-utilisateur>/next-better-auth-postgres/actions/workflows/ci.yml/badge.svg)](https://github.com/<ton-utilisateur>/next-better-auth-postgres/actions)
+[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/<ton-utilisateur>/next-better-auth-postgres)
 
-First, run the development server:
+## Architecture du projet
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+projet/
+├── .env
+├── docker-compose.yml
+├── next.config.ts
+├── package.json
+├── postcss.config.mjs
+├── tailwind.config.js
+├── tsconfig.json
+├── public/
+├── src/
+│   └── app/
+│       ├── components/
+│       │   ├── AppHeader.tsx
+│       │   ├── MovieList.tsx
+│       │   ├── MovieListSuspense.tsx
+│       │   ├── MovieSkeleton.tsx
+│       │   └── user-header.tsx
+│       ├── dashboard/
+│       │   └── page.tsx
+│       ├── signin/
+│       │   └── page.tsx
+│       ├── signup/
+│       │   └── page.tsx
+│       ├── layout.tsx
+│       ├── page.tsx
+│       └── api/
+│           └── auth/
+│               ├── [...auth]/route.ts
+│               └── signout/route.ts
+│   └── lib/
+│       ├── auth.ts
+│       └── auth-client.ts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies utilisées
+- **Next.js** (App Router, SSR/SSG, API routes)
+- **TypeScript** (typage strict)
+- **TailwindCSS** (UI moderne, dark mode)
+- **Better Auth** (authentification)
+- **PostgreSQL** (base de données, via Docker)
+- **react-loading-skeleton** (skeleton UI)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Lancement du projet
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prérequis
+- Node.js >= 18
+- pnpm (gestionnaire de paquets)
+- Docker (pour la base PostgreSQL)
 
-## Learn More
+### 1. Installer les dépendances
+```sh
+pnpm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Lancer la base de données
+```sh
+docker-compose up -d
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. Configurer les variables d'environnement
+Copier `.env.example` en `.env` et adapter les valeurs si besoin.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. Lancer le serveur de développement
+```sh
+pnpm dev
+```
 
-## Deploy on Vercel
+Le projet sera accessible sur [http://localhost:3000](http://localhost:3000)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Pages principales** :
+- `/` : Landing page
+- `/signin` : Connexion
+- `/signup` : Inscription
+- `/dashboard` : Dashboard privé (infos utilisateur + films TMDB)
+
+**Bonnes pratiques** :
+- Code typé, composants fonctionnels, hooks React
+- Séparation logique métier (lib/) et présentation (app/)
+- Authentification sécurisée (Better Auth)
+- UI moderne et responsive (TailwindCSS)
+
+---
+
+> Pour toute question, consulte la documentation dans `copilot-instructions.md` ou le code source.
