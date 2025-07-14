@@ -6,6 +6,7 @@ import { authClient } from "@/lib/auth-client";
 export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -59,15 +60,26 @@ export default function SignInPage() {
           <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="password">
             Password
           </label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-neutral-800 leading-tight focus:outline-none focus:shadow-outline"
-          />
+          <div className="relative flex items-center">
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              placeholder="Password"
+              required
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 dark:bg-neutral-800 leading-tight focus:outline-none focus:shadow-outline pr-10"
+            />
+            <label className="ml-2 flex items-center text-xs cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={showPassword}
+                onChange={() => setShowPassword(v => !v)}
+                className="mr-1 accent-blue-600"
+              />
+              Show
+            </label>
+          </div>
         </div>
         <button
           type="submit"
