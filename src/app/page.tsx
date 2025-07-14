@@ -1,25 +1,8 @@
 import Image from "next/image";
-import { Suspense } from "react";
-import UserHeader from "./user-header";
 
 export default function Home() {
   return (
     <div className="grid grid-rows-[auto_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <header className="w-full flex justify-between items-center py-4 px-2 sm:px-8">
-        <div className="flex items-center gap-2">
-          <Image
-            src="/next.svg"
-            alt="Next.js logo"
-            width={120}
-            height={28}
-            priority
-          />
-        </div>
-        <Suspense fallback={<div />}>
-          {/* SSR user info */}
-          <UserHeader />
-        </Suspense>
-      </header>
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2 tracking-[-.01em]">
