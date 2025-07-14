@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import UserHeader from "../user-header";
+import UserHeader from "./user-header";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 

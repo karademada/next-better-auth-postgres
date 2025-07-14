@@ -11,16 +11,13 @@ export default function UserHeader() {
   const router = useRouter();
 
   useEffect(() => {
-    let mounted = true;
-    authClient.getSession()
-      .then((session) => {
-        if (mounted) setUser(session?.user || null);
-      })
-      .catch((err) => {
-        if (mounted) setError("Erreur lors de la récupération de la session utilisateur.");
-      });
-    return () => { mounted = false; };
+    fetchUser()
   }, []);
+
+  const fetchUser = async () => {
+    const session = await authClient.getSession();
+    setUser(session?.data?.user || null);
+  };
 
   const handleSignOut = async () => {
     setLoading(true);
@@ -54,9 +51,7 @@ export default function UserHeader() {
     <div className="flex gap-4 items-center">
       {user ? (
         <>
-          <span className="text-sm">
-            Hello, {user.name || user.email}
-          </span>
+          <span className="text-sm">Hello, {user.name || user.email}</span>
           {user.image && (
             <img
               src={user.image}
